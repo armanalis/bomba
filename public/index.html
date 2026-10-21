@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1a0b2e">
+  <title>Bomba</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Rubik:wght@500;700&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-phase="home">
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="bomb-icon" viewBox="0 0 64 64">
+      <path d="M46 15 Q52 4 60 7" fill="none" stroke="#d8b179" stroke-width="3" stroke-linecap="round"/>
+      <rect x="37" y="15.5" width="12" height="9" rx="2" fill="#3d3850" transform="rotate(45 43 20)"/>
+      <circle cx="28" cy="38" r="22" fill="#15111d"/>
+      <circle cx="28" cy="38" r="22" fill="none" stroke="#2c2638" stroke-width="2"/>
+      <ellipse cx="19" cy="29" rx="6" ry="4" fill="#fff" opacity=".22" transform="rotate(-35 19 29)"/>
+    </symbol>
+  </svg>
+
+  <!-- Giriş -->
+  <main id="home" class="screen home">
+    <h1 class="logo">B<svg class="logo-bomb" aria-hidden="true"><use href="#bomb-icon"/></svg>MBA</h1>
+    <p class="tagline">Kelimeyi anlat, bombayı karşıya at.</p>
+
+    <div id="choices" class="choices">
+      <button id="createBtn" class="btn btn-join">ODA KUR</button>
+      <button id="joinChoice" class="btn btn-join btn-alt">ODAYA KATIL</button>
+    </div>
+    <form id="joinForm" class="choices" hidden>
+      <label class="field">
+        <span>Arkadaşının verdiği oda kodu</span>
+        <input id="codeInput" maxlength="8" autocomplete="off" autocapitalize="characters" spellcheck="false" inputmode="text">
+      </label>
+      <button class="btn btn-join btn-alt">KATIL</button>
+      <button type="button" id="backBtn" class="btn btn-ghost">Geri</button>
+    </form>
+    <p id="homeMsg" class="hint">Oda kur ya da arkadaşının koduyla odaya katıl.</p>
+
+    <details class="rules">
+      <summary>Nasıl oynanır?</summary>
+      <ol>
+        <li>Sıra sendeyken ekranda bir kelime çıkar. İstediğin gibi anlat.</li>
+        <li>Bilinince <b>DOĞRU</b>'ya bas, bomba karşıya geçer. Geçmek için <b>PAS</b>.</li>
+        <li>Bomba 10 ile 60 saniye arasında rastgele bir anda patlar. Kimdeyse -1 yer.</li>
+        <li>-3 olan kaybeder.</li>
+      </ol>
+    </details>
+  </main>
+
+  <!-- Oyun -->
+  <main id="game" class="screen game" hidden>
+    <header class="topbar">
+      <button id="shareBtn" class="chip">Oda <b id="roomCode"></b></button>
+      <span class="spacer"></span>
+      <button id="muteBtn" class="chip" aria-label="Sesi aç/kapat"></button>
+      <button id="leaveBtn" class="chip">Çık</button>
+    </header>
+
+    <section class="players">
+      <div class="player" data-player="user1">
+        <div class="lives"></div>
+        <div class="avatar"><span>1</span></div>
+        <div class="name">Oyuncu 1</div>
+        <div class="tag"></div>
+      </div>
+      <div class="vs">VS</div>
+      <div class="player" data-player="user2">
+        <div class="lives"></div>
+        <div class="avatar"><span>2</span></div>
+        <div class="name">Oyuncu 2</div>
+        <div class="tag"></div>
+      </div>
+    </section>
+
+    <section class="track" id="track">
+      <div class="bar"><div class="fill"></div></div>
+      <div class="bomb">
+        <svg aria-hidden="true"><use href="#bomb-icon"/></svg>
+        <span class="spark"></span>
+        <svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><polygon/></svg>
+      </div>
+    </section>
+
+    <section class="card-area">
+      <div id="card" class="card back">
+        <span id="category" class="category"></span>
+        <span id="word" class="word"></span>
+        <span class="qmark">?</span>
+      </div>
+      <p id="status" class="status" aria-live="polite"></p>
+    </section>
+
+    <section id="actions" class="actions">
+      <button id="passBtn" class="btn btn-pass">PAS</button>
+      <button id="correctBtn" class="btn btn-correct">DOĞRU</button>
+    </section>
+
+    <div id="overlay" class="overlay" hidden>
+      <div class="overlay-box">
+        <div id="ovIcon" class="ov-icon"></div>
+        <h2 id="ovTitle"></h2>
+        <p id="ovText"></p>
+        <div id="lobby" class="lobby">
+          <p class="lobby-code">Oda kodu <b id="lobbyCode"></b></p>
+          <label class="field">
+            <span>Adın</span>
+            <input id="nameInput" class="name-input" maxlength="16" autocomplete="off" enterkeyhint="done">
+          </label>
+          <ul id="lobbyPlayers" class="lobby-players"></ul>
+        </div>
+        <button id="ovBtn" class="btn btn-big"></button>
+        <button id="ovShare" class="btn btn-ghost">Linki paylaş</button>
+      </div>
+    </div>
+  </main>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
